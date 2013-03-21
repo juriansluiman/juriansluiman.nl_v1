@@ -1,0 +1,8 @@
+{
+    "minimum-stability": "dev",
+    "require": {
+        "soflomo/prototype": "dev-master",
+        "zendframework/zendframework": "2.*",
+        "soflomo/common": "dev-master"
+    }
+}
