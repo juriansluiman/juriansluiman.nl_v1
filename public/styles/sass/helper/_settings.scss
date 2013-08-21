@@ -1,0 +1,45 @@
+// Enable Compass
+@import 'compass';
+@import "compass/css3";
+//@import 'compass/css3/user-interface';
+
+// Import Normalize and Soflomo Base styles
+@import "../../components/normalize.scss/normalize";
+@import "../../components/soflomo-base-styles/soflomo-base-styles";
+
+$max-width: 1440px;
+
+// Helper Media Queries
+$break-handhelds: 320px;
+$break-wide-handhelds: 600px;
+$break-portrait-tablets: 760px ;
+$break-tablets: 1024px;
+$break-widescreens: 1200px;
+@import 'helper/respond-to';
+
+//
+// Foundation
+//
+
+// General foundation config
+@import "../../components/foundation/scss/foundation/variables.scss";
+@import "../../components/foundation/scss/foundation/components/global";
+@import "../../components/foundation/scss/foundation/components/flex-video";
+@import "../../components/foundation/scss/foundation/components/block-grid";
+
+// Foundation Grid settings
+//$include-html-grid-classes: true;
+
+$row-width: 70.5em;
+$column-gutter: 1.875em;
+$total-columns: 12;
+
+@import "../../components/foundation/scss/foundation/components/grid";
+
+
+// Colors
+$primary: rgb(204,29,36);
+$secondary: rgb(204,29,36);
+$black: rgb(55, 55, 55);
+$selected: rgb(211,234,219);
+$link: rgb(204,29,36);

@@ -1,0 +1,35 @@
+@import "module/zend-form";
+
+.navbar .brand {
+    background: url("/components/ensemble-assets/images/ensemble-logo.png") no-repeat scroll 0 6px transparent;
+    background-size: 25px;
+    margin-left: 0;
+    padding: 8px 40px 12px 40px;
+}
+
+.editor {
+    max-width: 700px;
+}
+
+.sidebar-nav {
+    padding: 1em 0;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+}
+
+.redactor_box {
+    margin-bottom: 1em;
+}
+
+#redactor_modal button, #redactor_modal input, #redactor_modal select, #redactor_modal textarea {
+    vertical-align: top;
+}
+
+label>span {
+    display: block;
+}
+
+@import "module/admin-image";
+@import "module/admin-blog";

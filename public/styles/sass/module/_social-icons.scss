@@ -1,0 +1,37 @@
+ul.social {
+    text-align: right;
+    margin-right: .7em;
+}
+
+a.social-icon {
+   margin-left: .5em;
+   line-height: 0;
+   text-indent: -999em;
+   display: inline-block;
+   height: 36px;
+   background-size: 100%;
+   //margin-right: .5em;
+   padding: 1em;
+}
+
+.svg a.social-icon.facebook {
+    background: transparent url('/images/social/icon-facebook.svg') no-repeat 0 .3em;
+}
+
+.no-svg a.social-icon.facebook {
+    background: transparent url('/images/social/icon-facebook.png') no-repeat 0 .3em;
+}
+.no-svg.no-backgroundsize a.social-icon.facebook {
+    background: transparent url('/images/social/icon-facebook-small.png') no-repeat 0 .3em;
+}
+
+.svg a.social-icon.vimeo {
+    background: transparent url('/images/social/icon-vimeo.svg') no-repeat 0 .3em;
+}
+
+.no-svg a.social-icon.vimeo {
+    background: transparent url('/images/social/icon-vimeo.png') no-repeat 0 .3em;
+}
+.no-svg.no-backgroundsize a.social-icon.vimeo {
+    background: transparent url('/images/social/icon-vimeo-small.png') no-repeat 0 .3em;
+}

@@ -1,0 +1,181 @@
+.image-uploader {
+    margin-bottom: 1em;
+}
+
+.image-container {
+    margin-bottom: 1em;
+}
+
+.image-delete-container {
+    margin-top: 1em;
+}
+
+.image-upload-button {
+    display: block;
+}
+
+.errors {
+    margin: 1em 0;
+    list-style: none;
+}
+
+// Standard Dropzone Classes
+
+/* The MIT License */
+.dropzone,
+.image-uploader *,
+.dropzone-previews,
+.dropzone-previews * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.image-uploader {
+  position: relative;
+  //border: 1px solid rgba(0,0,0,0.08);
+  //background: rgba(0,0,0,0.02);
+  //padding: 1em;
+}
+.image-uploader.clickable {
+  cursor: pointer;
+}
+.image-uploader.clickable .message,
+.image-uploader.clickable .message span {
+  cursor: pointer;
+}
+.image-uploader.clickable * {
+  cursor: default;
+}
+.image-uploader .message {
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+}
+.image-uploader.drag-hover {
+  border-color: rgba(0,0,0,0.15);
+  background: rgba(0,0,0,0.04);
+}
+.image-uploader.started .message {
+  display: none;
+}
+.image-uploader .preview,
+.dropzone-previews .preview {
+  background: rgba(255,255,255,0.8);
+  position: relative;
+  display: inline-block;
+  //margin: 17px;
+  vertical-align: top;
+  //border: 1px solid #acacac;
+  //padding: 6px 6px 6px 6px;
+  margin-bottom: 1em;
+}
+.image-uploader .preview .details,
+.dropzone-previews .preview .details {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  background: #ebebeb;
+  padding: 5px;
+  //margin-bottom: 22px;
+}
+.image-uploader .preview .details .filename,
+.dropzone-previews .preview .details .filename {
+  overflow: hidden;
+  height: 100%;
+}
+.image-uploader .preview .details img,
+.dropzone-previews .preview .details img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 200px;
+}
+.image-uploader .preview .details .size,
+.dropzone-previews .preview .details .size {
+  display: none;
+  position: absolute;
+  bottom: -28px;
+  left: 3px;
+  height: 28px;
+  line-height: 28px;
+}
+.image-uploader .preview.error .error-mark,
+.dropzone-previews .preview.error .error-mark {
+  display: block;
+}
+.image-uploader .preview.success .success-mark,
+.dropzone-previews .preview.success .success-mark {
+  display: block;
+}
+//.image-uploader .preview:hover .details img,
+//.dropzone-previews .preview:hover .details img {
+//  display: none;
+//}
+// .image-uploader .preview:hover .success-mark,
+// .dropzone-previews .preview:hover .success-mark,
+// .image-uploader .preview:hover .error-mark,
+// .dropzone-previews .preview:hover .error-mark {
+//   display: none;
+// }
+.image-uploader .preview .success-mark,
+.dropzone-previews .preview .success-mark,
+.image-uploader .preview .error-mark,
+.dropzone-previews .preview .error-mark {
+  display: none;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  font-size: 30px;
+  text-align: center;
+  right: -10px;
+  top: -10px;
+}
+.image-uploader .preview .success-mark,
+.dropzone-previews .preview .success-mark {
+  color: #8cc657;
+}
+.image-uploader .preview .error-mark,
+.dropzone-previews .preview .error-mark {
+  color: #ee162d;
+}
+.image-uploader .preview .progress,
+.dropzone-previews .preview .progress {
+  position: absolute;
+  top: 200px;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: #d7d7d7;
+  display: none;
+}
+.image-uploader .preview .progress .upload,
+.dropzone-previews .preview .progress .upload {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  background-color: #8cc657;
+}
+.image-uploader .preview.processing .progress,
+.dropzone-previews .preview.processing .progress {
+  display: block;
+}
+.image-uploader .preview .error-message,
+.dropzone-previews .preview .error-message {
+  display: none;
+  position: absolute;
+  top: -5px;
+  left: -20px;
+  background: rgba(245,245,245,0.8);
+  padding: 8px 10px;
+  color: #800;
+  min-width: 140px;
+  max-width: 500px;
+  z-index: 500;
+}
+.image-uploader .preview:hover.error .error-message,
+.dropzone-previews .preview:hover.error .error-message {
+  display: block;
+}

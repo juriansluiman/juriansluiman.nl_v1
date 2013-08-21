@@ -1,0 +1,85 @@
+/**
+ * Navigation general
+ */
+
+.nav-main ul, .nav-sub ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/**
+ * Main navigation
+ */
+
+.nav-main {
+    margin-top: 1em;
+}
+
+.nav-main li {
+    display: inline;
+}
+
+.nav-main a {
+    text-transform: uppercase;
+    text-decoration: none;
+    //letter-spacing: 1px;
+    margin-top: 1em;
+    padding: .3em 1em;
+    color: $black;
+}
+
+.nav-main .active a {
+    background-color: $selected;
+}
+
+/**
+ * Submenu navigation
+ */
+
+nav-sub {
+    display: block;
+}
+
+.nav-sub:after {
+    content: "\00a0";
+}
+
+.nav-sub>ul {
+    //padding-top: 86px;
+    padding-top: 20px;
+    margin: 0 .8em;
+}
+
+.nav-sub li {
+    //border-top: 1px solid #efefef;
+    border-top: 2px dotted $link;
+}
+
+.nav-sub li li:last-child {
+    // border-bottom: 1px solid #efefef;
+    border-bottom: 2px dotted $link;
+}
+
+.nav-sub a {
+    display: block;
+    padding: .7em 0 .7em .7em;
+}
+
+.nav-sub a:hover {
+    color: $black;
+    //text-decoration: none;
+}
+
+.nav-sub .active>a {
+    color: $black;
+}
+
+// .nav-sub .active>a:after {
+//     margin-top: -.3em;
+//     margin-right: .2em;
+//     content: "\203A";
+//     font-size: 1.5em;
+//     float: right;
+//     color: #eee;
+// }

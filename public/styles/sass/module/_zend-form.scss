@@ -1,0 +1,44 @@
+//
+// Forms
+//
+
+form label {
+    display: block;
+}
+
+label>span {
+    display: block;
+}
+
+input {
+    margin-bottom: 1.2em;
+}
+
+.zend_form label {
+    display: inline-block;
+}
+
+form dd {
+    margin: 0;
+}
+
+form dd input {
+    display: block;
+}
+
+input.input-error,
+input.error {
+    border-color: red;
+}
+
+label>ul,
+form dd>ul,
+.form-errors {
+    display: inline-block;
+    margin: 0 0 1em 0;
+    list-style: none;
+    padding: .3em .5em;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    background-color: #fcf8e3;
+    border: 1px solid #fbeed5;
+}
