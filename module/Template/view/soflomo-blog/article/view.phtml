@@ -1,0 +1,22 @@
+<?php
+/**
+ * Detail of blog post
+ *
+ * @var $article Article to be shown
+ */
+
+$this->headTitle($this->escapeHtmlAttr($article->getTitle()));
+$this->layout()->locale = $article->getLocale();
+?>
+
+<article class="blog-article" itemprop="blogPosts" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        <!-- <time datetime="2011-11-06T13:42:04+01:00" pubdate itemprop="datePublished" content="2011-11-06" class="blog-article-publishdate">november 2011</time> -->
+        <h1 itemprop="name" class="blog-article-title">
+            <a href="" itemprop="url"><?= $this->escapeHtml($article->getTitle())?></a>
+        </h1>
+    </header>
+
+    <?= $article->getLead()?>
+    <?= $article->getBody()?>
+</article>

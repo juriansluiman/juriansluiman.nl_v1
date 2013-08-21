@@ -1,0 +1,142 @@
+<?php
+    $this->headTitle()->set('Interface injection with initializers in Zend\ServiceManager')
+?>
+
+<article class="blog-article" itemprop="blogPosts" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        <time datetime="2011-11-06T13:42:04+01:00" pubdate itemprop="datePublished" content="2011-11-06" class="blog-article-publishdate">november 2011</time>
+        <h1 itemprop="name" class="blog-article-title"><a href="" itemprop="url">Interface injection with initializers in Zend\ServiceManager</a></h1>
+    </header>
+
+    <p>The <code>Zend\ServiceManager</code> is a component which handles (besides other stuff) dependency injection. Dependency injection is a hot item lately in the php world and as Martin Fowler explains there are <a href="http://www.martinfowler.com/articles/injection.html#FormsOfDependencyInjection">three types of dependency injection</a>. In this post I am particularly interested in injecting soft dependencies with interface injection.</p>
+
+    <p>The help of the <code>Zend\ServiceManager</code> makes it straightforward to have decoupled objects. For the use cases where you have a soft dependency, the ServiceManager has a great tool called initializers. Initializers are small "callables" providing add-on features for your objects you pull from the service manager.</p>        <h2>Soft dependencies</h2>
+
+    <p>As an example I will use a logger class. A <code>Zend\Log\Logger</code> object can log messages to various so-called writers and I see <strong>loggers</strong> as a typical soft dependency. Apart from the definition of dependency I would say that a hard dependency is "<em>a maximum constraint for a service to perform an executed task and directly related to the nature of the objective</em>". A soft dependency in contrary is "<em>a minimum constraint for a service electively used in the execution of the task and not related to the nature of the objective</em>".</p>
+
+    <p>In short, it means if you have a service <code>BloggerService</code> and a method <code>createPost()</code> you have a hard dependency on a database adapter if you persist your blog posts into a database: it is required to perform the task and the database is related the the objective of persisting the post. If you optionally send a tweet that you blogged about something new, you might inject a <code>TweetService</code> in the <code>BloggerService</code>. If the <code>BloggerService</code> has a <code>TweetService</code>, it will tweet. If you don't set the <code>TweetService</code>, it does not tweet: the tweet service is not required to perform the task and is also not related to the nature of persisting a blog post.</p>
+
+    <h2>Interface injection</h2>
+
+    <p>If you want to inject soft dependencies with dependency injection, it is interesting to look at interface injection too. It means when a class implements a certain interface you can inject the dependency. I assume here you have already an idea of the terms Dependency Injection or Inversion of Control. Interface injection is explained in the most simple way with a code example:</p>
+
+    <pre><code>&lt;?php
+
+interface TweetServiceAwareInterface
+{
+    public function setTweetService(TweetService $service);
+}
+
+class BloggerService implements TweetServiceAwareInterface
+{
+    public function setTweetService(TweetService $service) {}
+}</code></pre>
+
+    <p>And if you have a factory then you can look for the interface:</p>
+
+    <pre><code>&lt;?php
+
+class ServiceFactory
+{
+    public function createService($name)
+    {
+        // Create service here based on $name
+
+        if ($service instanceof TweetServiceAwareInterface) {
+            // Create tweet service
+            $service-&gt;setTweetService($tweetService);
+        }
+
+        return $service;
+    }
+}</code></pre>
+
+    <p>As you might notice there are two important aspects here:</p>
+
+    <ol>
+        <li><p>Whether you inject the tweet service is up to the interface you check, hence the name interface injection</p></li>
+        <li><p>The service is a soft dependency: when the service does not implement the <code>TweetServiceAwareInterface</code>, the tweet service is not set and the code should still work.</p></li>
+    </ol>
+
+    <h2>Initializers</h2>
+
+    <p>You might expect now that initializers in the <code>Zend\ServiceManager</code> are a good option to use if you want this kind of behavior. Initializers watch every class created and can "enhance" the instantiation process by doing additional work, for example injecting soft dependencies.</p>
+
+    <p>Let's get back to the practical example of using a logger. There is a logger interface to use for your initializer: <code>Zend\Log\LoggerAwareInterface</code>. Assume you have a service where you might log some actions a user performs. Analogue to above writings you implement the interface:</p>
+
+    <pre><code>&lt;?php
+
+namespace MyModule\Service;
+
+use Zend\Log\Logger;
+use Zend\Log\LoggerAwareInterface;
+
+class MyService implements LoggerAwareInterface
+{
+    protected $logger;
+
+    public function setLogger(Logger $logger)
+    {
+        $this-&gt;logger = $logger;
+    }
+
+    public function getLogger()
+    {
+        return $this-&gt;logger;
+    }
+
+    public function doSomething()
+    {
+        // Do stuff here
+
+        if (null !== $this-&gt;getLogger()) {
+            $this-&gt;getLogger()-&gt;info('User did something here');
+        }
+
+        // Continue your work
+    }
+}</code></pre>
+
+    <p>In the method you can check if you have a logger. If so, log the message. If not, skip the logging and continue. The final piece here is the initializer you need to write. Important is I have two prerequisites in order to get the interface injection working:</p>
+
+    <ol>
+        <li><p>The logger must be a service inside the service manager. You can create a factory for the logger, what <a href="http://juriansluiman.nl/en/article/120/using-zend-framework-service-managers-in-your-application">I already described in an earlier post</a>;</p></li>
+        <li><p>The <code>MyService</code> class can be fetched from the service manager. You can make the service an invokable in the service manger, for example.</p></li>
+    </ol>
+
+    <p>Then your initializer can look something like this:</p>
+
+    <pre><code>&lt;?php
+
+namespace MyModule;
+
+use Zend\Log\LoggerAwareInterface;
+use Zend\Mvc\MvcEvent;
+
+class Module
+{
+    public function onBootstrap(MvcEvent $e)
+    {
+        $app = $e-&gt;getApplication();
+        $sm  = $app-&gt;getServiceManager();
+
+        $sm-&gt;addInitializer(function($service, $sm) {
+            if ($service instanceof LoggerAwareInterface) {
+                $logger = $sm-&gt;get('logger');
+                $service-&gt;setLogger($logger);
+            }
+        });
+    }
+}</code></pre>
+
+    <p>If you now call <code>$serviceManager-&gt;get('my-service');</code> the initializer sees that <code>MyService</code> is an instance of the <code>LoggerAwareInterface</code>. It pulls the logger from the service manager and injects it into your <code>MyService</code> class.</p>
+
+    <p>It allows you to decouple the logging from the service and reuse the initializer for many classes. If you want more classes consuming a logger, simply add another class and make that <code>LoggerAware</code>. If you want to replace the log instance in all services, just replace the factory for the logger. If you want to disable logging, remove the initializer. It is extremely flexible and once you get used to it a great tool for your applications.</p>
+
+    <p>Some final notes:</p>
+
+    <ol>
+        <li><p>I made an initializer now which is a closure. You can make an initializer by any <a href="http://php.net/manual/en/language.types.callable.php">callable</a> or if you provide a class (an instance or a FQCN string) which implements <code>Zend\ServiceManager\InitializerInterface</code>;</p></li>
+        <li><p>I enabled the initializer in the <code>onBootstrap()</code> from a module class. You can add the initializer anywhere in your code base, but remember to add the initializer before you pull the class. Otherwise, your initializer will not inject the dependencies.</p></li>
+    </ol>
+</article>

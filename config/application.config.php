@@ -2,9 +2,22 @@
 return array(
     'modules' => array(
         'Application',
-        'Soflomo\Prototype',
-        'Mockup',
+        'DoctrineModule',
+        'DoctrineORMModule',
+        'ZfcAdmin',
+        'Ensemble\Kernel',
+        'Ensemble\KernelDoctrineOrm',
+        'Ensemble\Utils',
+        'Ensemble\Admin',
         'Soflomo\Common',
+        'Soflomo\Image',
+        'Soflomo\Purifier',
+        'Soflomo\Blog',
+        'Soflomo\BlogI18n',
+        'Soflomo\Prototype',
+        'SlmCache',
+        'Mockup',
+        'Template',
     ),
     'module_listener_options' => array(
         'config_glob_paths'    => array(

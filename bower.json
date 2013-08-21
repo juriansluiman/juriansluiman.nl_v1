@@ -1,9 +1,18 @@
 {
-  "name": "--Project Name--",
-  "version": "0.1.0",
-  "main": "./public/styles/css/styles.css",
-  "dependencies": {
-    "normalize.scss": "2.1.0",
-    "modernizr": "2.6.2"
-  }
+    "name": "juriansluiman",
+    "version": "0.1.0",
+    "main": "./public/styles/css/styles.css",
+    "dependencies": {
+        "normalize-scss": "2.1.2",
+        "modernizr": "2.6.2",
+        "foundation": "4.2.3",
+        "box-sizing-polyfill": "ff1d7890761228c5552cde8f6601e57538dbd22d",
+        "soflomo-base-styles": "git://github.com/Soflomo/soflomo-base-styles.git",
+        "ensemble-assets": "git://github.com/jurreantonisse/ensemble-assets.git",
+        "dropzone": "3.6.2",
+        "requirejs": "2.1.5",
+        "bootstrap-datetimepicker": "2403664c00e5a7d5a9c21538de295934f747ee4f",
+        "redactor": "git@bitbucket.org:soflomo/redactor.git#9.0.3",
+        "soflomo-blog": "git@github.com:Soflomo/Blog.git"
+    }
 }

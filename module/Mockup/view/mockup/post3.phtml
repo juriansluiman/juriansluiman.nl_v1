@@ -1,0 +1,31 @@
+<?php
+    $this->headTitle()->set('Use Soflomo\Prototype for quick website prototypes')
+?>
+
+<article class="blog-article" itemprop="blogPosts" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        <time datetime="2011-11-06T13:42:04+01:00" pubdate itemprop="datePublished" content="2011-11-06" class="blog-article-publishdate">november 2011</time>
+        <h1 itemprop="name" class="blog-article-title"><a href="" itemprop="url">Use Soflomo\Prototype for quick website prototypes</a></h1>
+    </header>
+
+    <p>Today we at <a href="http://soflomo.com">Soflomo</a> released <a href="https://github.com/Soflomo/Prototype">Soflomo\Prototype</a>, a new Zend Framework 2 module. The module is just in use for about a couple of hours, but it already saves us so much work, we would like to share it. It is available under the New BSD (3 clause) license, feel free to use it!</p>
+
+    <p>The goal is to make it extremely easy inside Zend Framework 2 to start prototyping html pages. Designers and frontend developers currently often have to wait for a Zend Framework 2 developer to create a couple of routes, link them to a controller, assign the right view script and enable this all in a module. With Soflomo\Prototype, you simply say url /foo/bar must render /foo/bar.phtml. Nothing more.</p>
+
+    <p>The configuration is kept extremely simple, to (note: sarcasm!) even let frontend developers use Zend Framework 2. The base configuration looks like this:</p>
+
+    <pre><code>'foo' =&gt; array(
+  'route' =&gt; '/foo',
+  'template' =&gt; 'mockup/foo',
+),
+'bar' =&gt; array(
+  'route' =&gt; '/bar',
+  'template' =&gt; 'mockup/bar'
+),</code></pre>
+
+    <p>There you have two pages, "foo" and "bar". If you hit <code>/foo</code>, the <code>mockup/foo.phtml</code> will be rendered. If you load <code>/bar</code> the <code>mockup/bar.phtml</code> template will be used. Simple, huh?</p>
+
+    <p>It is recommended to load Soflomo\Prototype via composer and put all your custom mockups inside a separate module. This allows you to keep all mockup files together and when you start the development of you app, you copy/paste the mockups to the other modules.</p>
+
+    <p>A last note, you might wonder what you need to do with navigation. I suggest you use the basic, default navigation configuration <a href="http://zf2.readthedocs.org/en/latest/modules/zend.navigation.quick-start.html">as explained in the manual</a>. You can build a navigation structure there and without much hassle you have menus, breadcrumbs and so on linked to the mockup pages.</p>
+</article>

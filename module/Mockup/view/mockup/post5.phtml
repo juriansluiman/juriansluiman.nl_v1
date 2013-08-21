@@ -1,0 +1,108 @@
+<?php
+    $this->headTitle()->set('Factories for translator loaders')
+?>
+
+<article class="blog-article" itemprop="blogPosts" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        <time datetime="2011-11-06T13:42:04+01:00" pubdate itemprop="datePublished" content="2011-11-06" class="blog-article-publishdate">november 2011</time>
+        <h1 itemprop="name" class="blog-article-title"><a href="" itemprop="url">Factories for translator loaders</a></h1>
+    </header>
+
+    <p>Many components in Zend Framework 2 following the adapter or plugin pattern, make use of the <code>AbstractPluginManager</code>. The abstract plugin manager is a service locator implementation which allows to define services as invokable or with factories. Many of these plugin managers are loaded automatically (see for example <a href="article/120/using-zend-framework-service-managers-in-your-application">my earlier post about service managers</a>). However, the manager for loaders of <code>Zend\I18n\Translator</code> is a stranger in our midst.</p>
+
+  <p>As of an IRC conversation today on #zftalk I, with a few others, found out how the plugin manager of <code>Zend\I18n\Translator</code> works. On the outside, it is an implementation of the abstract plugin manager. But if you look more closely, the plugin manager has no "parent" service locator. That means, if you have defined a reposity or service you need inside a loader, you don't have access to it!</p>
+
+  <p>In this blog post I will show how to fix this with an example loader, a database loader based on the <code>EntityManager</code> of Doctrine.</p>
+
+  <p>First, we have a <code>Loader</code> implementation:</p>
+
+  <pre><code>&lt;?php
+namespace MyModule\Translator\Loader;
+
+use Doctrine\ORM\EntityManager;
+use Zend\I18n\Translator\Loader\RemoteLoaderInterface;
+
+class DoctrineLoader implements RemoteLoaderInterface
+{
+    protected $em;
+
+    public function __construct(EntityManager $em)
+    {
+        $this-&gt;em = $em;
+    }
+
+    /**
+     * {@inheritdocs}
+     */
+    public function load($locale, $textDomain)
+    {
+        // Use $this-&gt;em to query the database
+    }
+}</code></pre>
+
+    <p>With the loader in place, we need a factory to instantiate this loader:</p>
+
+    <pre><code>&lt;?php
+namespace MyModule\Service;
+
+use Zend\ServiceManager\FactoryInterface;
+use MyModule\Translator\Loader\DoctrineLoader;
+
+class DoctrineLoaderFactory implements FactoryInterface
+{
+    /**
+    * {@inheritdocs}
+    */
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        /**
+         * $serviceLocator is the translator plugin manager, to get into the
+         * root service locator we need the getServiceLocator() call
+         *
+         * @see http://juriansluiman.nl/en/article/120
+         */
+        $sm = $serviceLocator-&gt;getServiceLocator();
+        $em = $sm-&gt;get('Doctrine\ORM\EntityManager');
+
+        return new DoctrineLoader($em);
+   }
+}</code></pre>
+
+    <p>As I said, the above should be standard work if you know how to handle dependency injection and to wire dependencies with factory classes of <code>Zend\ServiceManager</code>. The point I speak about in the introduction is to "fix" the plugin manager of the translator: if you don't fix the plugin manager, the call <code>getServiceLocator()</code> returns <code>NULL</code>!</p>
+
+    <p>This fix injects the root service manager from the application into the plugin manager of the <code>Translator</code> object. This must be done during bootstrap, so it's quite straightforward to do this in the <code>Module</code> class. Furthermore, because developers are getting used to the <code>get*Config()</code> methods in the <code>Module</code> class, I named the configuration of the translator plugin loader <code>getTranslatorConfig()</code>.</p>
+
+    <pre><code>&lt;?php
+namespace MyModule;
+
+use Zend\ServiceManager\Config;
+
+class Module
+{
+    public function getTranslatorConfig()
+    {
+        return array(
+            'factories' =&gt; array(
+                'MyModule\Translator\Loader\DoctrineLoader' =&gt; 'MyModule\Service\DoctrineLoaderFactory',
+            ),
+        );
+    }
+
+    public function onBootstrap($e)
+    {
+        $sm = $e-&gt;getApplication-&gt;getServiceManager();
+        $this-&gt;configureTranslator($sm);
+    }
+
+    public function configureTranslator($sm)
+    {
+        $plugins = $sm-&gt;get('translator')-&gt;getPluginManager();
+        $plugins-&gt;setServiceLocator($sm);
+
+        $config  = new Config($this-&gt;getTranslatorConfig());
+        $config-&gt;configureServiceManager($plugins);
+    }
+}</code></pre>
+
+    <p>Copy this code and your custom translation loader works!</p>
+</article>

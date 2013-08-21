@@ -1,0 +1,89 @@
+<?php
+    $this->headTitle()->set('Strategies for hydrators: a practical use case')
+?>
+
+<article class="blog-article" itemprop="blogPosts" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        <time datetime="2011-11-06T13:42:04+01:00" pubdate itemprop="datePublished" content="2011-11-06" class="blog-article-publishdate">november 2011</time>
+        <h1 itemprop="name" class="blog-article-title"><a href="" itemprop="url">Strategies for hydrators: a practical use case</a></h1>
+    </header>
+
+    <p>After using Zend Framework 2 for more than a year, I just found out about <a href="http://framework.zend.com/manual/2.0/en/modules/zend.stdlib.hydrator.strategy.html">strategies</a> for hydrators today. Yes, <em>today</em> and thanks to <a href="http://www.michaelgallego.fr/">Micha&euml;l Gallego</a> who introduced me to this concept. But I think many people underestimate what they can do with hydrators and their strategies, so this post explains why strategies for hydrators are <strong>awesome</strong>.</p>
+
+    <p>Take an entity for example which contains a timestamp. You prefer to type hint on the setter for a DateTime object, for obvious reasons:</p>
+
+  <pre><code>public function getDate()
+{
+    return $this-&gt;timestamp;
+}
+
+public function setDate(DateTime $timestamp)
+{
+    $this-&gt;timestamp = $timestamp;
+    return $this;
+}</code></pre>
+
+    <p>However, you run into troubles if you bind this entity to a form. By default the POST contains string values, so a date value can be send to the server as "2012-11-06". The hydrator wants to set this string to your entity, but it fails due to the missing DateTime object. And then the strategy comes to the rescue!</p>
+
+    <p>A strategy manipulates (and probably converts) a value during extraction and/or hydration. In this case, it&rsquo;s perfectly valid to extract the timestamp as a <code>DateTime</code> object. However, it is important to <em>hydrate</em> the value specifically according to the signature: the string value must be converted into a <code>DateTime</code> object. Now we can apply this conversion in a strategy:</p>
+
+
+    <pre><code>namespace MyModule\Hydrator\Strategy;
+
+use DateTime;
+use Zend\Stdlib\Hydrator\Strategy\DefaultStrategy;
+
+class DateTimeStrategy extends DefaultStrategy
+{
+  /**
+   * {@inheritdoc}
+   *
+   * Convert a string value into a DateTime object
+   */
+  public function hydrate($value)
+  {
+      if (is_string($value)) {
+          $value = new DateTime($value);
+      }
+
+      return $value;
+  }
+}</code></pre>
+
+    <p>In this strategy only the hydration part is implemented. If a specific value is hydrated and this value is a string, it must be converted into a <code>DateTime</code> object. The only thing left is to attach this strategy to your hydrator, for the field you want this to be applied. In above case, the property is extracted to/hydrated from a <code>"date"</code> (see the naming <code>getDate()</code> and <code>setDate()</code>). So the strategy must be applied to the <code>"date"</code> field:</p>
+
+    <pre><code>use Zend\Stdlib\Hydrator\ClassMethods;
+use MyModule\Hydrator\Strategy\DateTimeStrategy;
+
+$hydrator = new ClassMethods;
+$hydrator-&gt;addStrategy('date', new DateTimeStrategy);</code></pre>
+
+    <p>If you now hydrate the entity in the example with a <code>"date"</code> key in the array containing a string, is is perfectly transformed into a DateTime object.</p>
+
+    <h2>One step further: unset properties via the strategy</h2>
+
+    <p>You can extend this principle. If you want to clear the timestamp, you want to set the date to <code>null</code>. However, if you have an HTML form, you cannot make a POST indicating <code>null</code>. What happens is you send an empty string. So date is now <code>""</code>.</p>
+
+    <p>You can modify the signature of your entity to use the setter to unset the date:</p>
+
+    <pre><code>public function setDate(DateTime $timestamp = null)
+{
+   $this-&gt;timestamp = $timestamp;
+   return $this;
+}</code></pre>
+
+    <p>And the hydrator must understand an empty string means converting it to <code>null</code>:</p>
+
+    <pre><code>public function hydrate($value)
+{
+   if (is_string($value) &amp;&amp; "" === $value) {
+       $value = null;
+   } elseif (is_string($value)) {
+       $value = new DateTime($value);
+   }
+
+   return $value;
+}</code></pre>
+
+    <p>And voila! Your entity is very clean and the strategy solves all the mess for you.</p>
+</article>

@@ -1,7 +1,25 @@
 {
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:Soflomo/Image.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:Soflomo/Blog.git"
+        }
+    ],
     "require": {
-        "zendframework/zendframework": "2.*",
-        "soflomo/prototype": "0.*",
-        "soflomo/common": "0.*"
+        "zendframework/zendframework": ">=2.1.0,<2.3.0-dev",
+
+        "soflomo/prototype": ">=0.1.0,<0.2.0-dev",
+        "soflomo/common": ">=0.4.1,<0.5.0-dev",
+        "soflomo/image": "@dev",
+        "soflomo/blog": "@dev",
+
+        "ensemble/kernel": "@dev",
+        "ensemble/utils": "@dev",
+        "ensemble/kernel-doctrine-orm": "@dev",
+        "ensemble/admin": "@dev"
     }
 }

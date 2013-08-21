@@ -1,0 +1,46 @@
+<?php
+/**
+ * General layout for juriansluiman.nl
+ */
+if (!isset($locale)) {
+    $locale = Locale::getDefault();
+}
+?>
+<?= $this->doctype(); ?>
+
+<html lang="<?= Locale::getPrimaryLanguage($locale)?>">
+<head>
+    <meta charset="utf-8">
+    <?= $this->headTitle('Jurian Sluiman')->setSeparator(' &middot; ')->setAutoEscape(false) ?>
+
+    <?= $this->headMeta()->appendName('copyright', 'Jurian Sluiman 2013')
+                         ->appendName('generator', 'Ensemble CMF - Soflomo.com')
+                         ->appendName('viewport', 'width=device-width, initial-scale=1')
+                         ->appendName('apple-mobile-web-app-capable', 'yes')
+                         ?>
+
+    <?= $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro')
+                         ->prependStylesheet('//fast.fonts.net/cssapi/36620992-14f0-4ddb-91fb-f0f85808413d.css')
+                         ->appendStylesheet($this->basePath() . '/styles/css/styles.css?' . $this->version())?>
+
+    <?//= $this->headScript()->appendFile('//fast.fonts.net/jsapi/36620992-14f0-4ddb-91fb-f0f85808413d.js') ?>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+    <!-- <header role="banner"><h1><a href="<?= $this->basePath() ?>/">Jurian Sluiman</a></h1></header> -->
+
+    <!-- <nav role="navigation"><?= $this->navigation()->menu()->setUlClass('nav main-navigation') ?></nav> -->
+
+    <main role="main" id="content"><?= $this->content ?></main>
+
+    <footer role="contentinfo">
+        &copy; <a href="<?= $this->url('about-me')?>">Jurian Sluiman</a> 2009-2013 - All content is licensened under the <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0</a>. If you have any questions, feel free to <a href="contact">contact</a> me.
+    </footer>
+
+    <?= $this->inlineScript()
+             ->setAllowArbitraryAttributes(true)
+             //->prependFile('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
+             //->appendFile($this->basePath() .'/scripts/main.js?'. $this->version())
+             ?>
+</body>
+</html>

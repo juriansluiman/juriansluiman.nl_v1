@@ -12,4 +12,9 @@
  */
 
 return array(
+    'soflomo_purifier' => array(
+        'config' => array(
+            'Cache.DefinitionImpl' => null,
+        )
+    ),
 );
