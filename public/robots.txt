@@ -1,2 +1,5 @@
 User-agent: *
-Disallow: /
+Allow: /
+
+Host: juriansluiman.nl
+Sitemap: http://juriansluiman.nl/sitemap/xml
