@@ -2,8 +2,7 @@
 
 namespace Application;
 
-//use Doctrine\Common\Annotations\AnnotationRegistry;
-use Zend\Cache\Storage\Adapter\Apc;
+use Locale;
 
 class Module
 {
@@ -21,13 +20,6 @@ class Module
         );
     }
 
-    // public function init ()
-    // {
-    //     $namespace = 'Gedmo\Mapping\Annotation';
-    //     $lib       = 'vendor/gedmo/doctrine-extensions/lib/';
-    //     AnnotationRegistry::registerAutoloadNamespace($namespace, $lib);
-    // }
-
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
@@ -35,30 +27,12 @@ class Module
 
     public function onBootstrap($e)
     {
-        $list = array(
-            //E-mail addresses
-        );
-        $app  = $e->getApplication();
-        $em   = $app->getEventManager();
-        $sm   = $app->getServiceManager();
+        Locale::setDefault('en-GB');
 
-        $em->getSharedManager()->attach('Ensemble\Admin', 'dispatch', function() use ($sm, $list) {
-            $auth = $sm->get('zfcuser_auth_service');
-            if ($auth->hasIdentity()) {
-                $identity = $auth->getIdentity();
+        $purifier = $e->getApplication()->getServiceManager()->get('HTMLPurifier');
 
-                if (!in_array($identity->getEmail(), $list)) {
-                    throw new \Exception('You are not authorized to view this page!');
-                }
-            } else {
-                $manager  = $sm->get('Zend\Mvc\Controller\PluginManager');
-                $plugin   = $manager->get('url');
-                $url      = $plugin->fromRoute('zfcuser/login');
-                $redirect = $plugin->fromRoute('zfcadmin');
-
-                $plugin  = $manager->get('redirect');
-                return $plugin->toUrl($url . '?redirect=' . $redirect);
-            }
-        }, 1000);
+        $def  = $purifier->config->getHTMLDefinition(true);;
+        $code = $def->addElement('code', 'Block', 'Flow', 'Common');
+        $code->excludes = array('code' => true);
     }
 }
