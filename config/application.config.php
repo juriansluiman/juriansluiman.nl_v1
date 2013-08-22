@@ -16,8 +16,9 @@ return array(
         'Soflomo\BlogI18n',
         'Soflomo\Prototype',
         'SlmCache',
-        'Mockup',
         'Template',
+        'JsBlog',
+        'Mockup',
     ),
     'module_listener_options' => array(
         'config_glob_paths'    => array(
