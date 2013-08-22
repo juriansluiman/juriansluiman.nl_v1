@@ -18,6 +18,74 @@ main, footer {
     margin: 1em auto;
 }
 
+
+p {
+    margin: 0.5em 0;
+    line-height: 1.5;
+}
+
+p+p {
+    margin: 1em 0;
+}
+
+h1 {
+    font: normal normal 1.8em/1.2em 'Myriad W01 Lt', Helvetica, Verdana, sans-serif;
+    text-align: left;
+    margin: 0 0 0.7em;
+}
+
+h2 {
+    font: normal normal 1.5em/1.2em 'Myriad W01 Lt', Helvetica, Verdana, sans-serif;
+    margin-top: 1.5em;
+}
+
+h3 {
+    font: normal normal 1.2em/1.2em 'Myriad W01 Lt', Helvetica, Verdana, sans-serif;
+}
+
+em {
+    font-family: 'Minion W01 It';
+    font-style: normal;
+}
+
+strong {
+    font-family: 'Minion W01 Bd';
+    font-weight: normal;
+}
+
+q {
+    font-family: 'Minion W01 It';
+    font-size: 1.5em;
+
+    margin: 1.5em 0;
+    text-align: center;
+
+    display: block;
+    position: relative;
+    width: 120%;
+    left: -10%;
+}
+
+code {
+    font: normal normal 0.8em/1.4 'Source Code Pro', monospace;
+    white-space: pre;
+    word-break: normal;
+}
+
+pre {
+    line-height: 0.8;
+    display: inline-block;
+    background-color: #f4f4f4;
+    color: #060606;
+    margin-top: 0.2em;
+    padding: 0.6em;
+    padding-left: 5.5%;
+    width: 105%;
+    position: relative;
+    left: -5.5%;
+    overflow: auto;
+}
+
 /**
  * Blocks
  */
@@ -49,10 +117,8 @@ footer {
     hyphenate-limit-chars: 6 3 2;*/
 }
 
-.blog-article-title {
-    font: normal normal 1.8em/1.2em 'Myriad W01 Lt', Helvetica, Verdana, sans-serif;
-    text-align: left;
-    margin: 0 0 0.7em;
+h1 a, h2 a {
+    text-decoration: none;
 }
 
 .blog-article-title a {
@@ -63,71 +129,61 @@ footer {
 .blog-article-publishdate {
     float: right;
     display: block;
-    max-width: 10em;
-    margin-left: 2em;
+    max-width: 6.5em;
+    margin-left: 1em;
     color: #999;
     font-size: 0.9em;
-    padding-top: 0.9em;
+    padding-top: 0.67em;
 }
 
-.blog-article p {
-    margin: 0.5em 0;
-    line-height: 1.5;
-}
-.blog-article p+p {
-    margin: 1em 0;
+.blog-listing-publishdate {
+    padding-top: 0.45em;
 }
 
-.blog-article h2 {
-    font: normal normal 1.5em/1.2em 'Myriad W01 Lt', Helvetica, Verdana, sans-serif;
-    margin-top: 1.5em;
+.blog-archive-listing {
+    padding-left: 0;
+}
+.blog-archive-listing li {
+    list-style: none;
+}
+.blog-archive-listing li:before {
+    content: '\00b7';
+    margin: 0 0.5em;
+}
+.blog-archive-publishdate {
+    font: normal small-caps 1.2em/1.35 'Minion W01 Regular', Georgia, serif;
 }
 
-.blog-article h3 {
-    font: normal normal 1.2em/1.2em 'Myriad W01 Lt', Helvetica, Verdana, sans-serif;
+.blog-archive-title {
+    font: normal normal 1em/1.2em 'Myriad W01 Lt', Helvetica, Verdana, sans-serif;
 }
 
-.blog-article em {
-    font-family: 'Minion W01 It';
-    font-style: normal;
+.blog-archive-title a {
+    text-decoration: none;
 }
 
-.blog-article strong {
-    font-family: 'Minion W01 Bd';
-    font-weight: normal;
+.pagination ul{
+    list-style: none;
+    padding: 0;
 }
-
-q {
-    font-family: 'Minion W01 It';
-    font-size: 1.5em;
-
-    margin: 1.5em 0;
-    text-align: center;
-
-    display: block;
-    position: relative;
-    width: 120%;
-    left: -10%;
-}
-
-code {
-    font: normal normal 0.8em/1.4 'Source Code Pro', monospace;
-    white-space: pre;
-    word-break: normal;
-}
-
-pre {
-    line-height: 0.8;
+.pagination li {
     display: inline-block;
-    background-color: #f4f4f4;
-    color: #060606;
-    margin-top: 0.2em;
-    padding: 0.6em;
-    padding-left: 3.5%;
-    width: 103%;
-    position: relative;
-    left: -3.5%;
-    overflow: hidden;
+    padding: 0 0.4em;
+    color: #222;
+}
+
+.pagination .active {
+    color: red;
+}
+
+.pagination a {
+    color: #222;
+    font-size: 0.8em;
+}
+
+.linenums {
+    font-size: 0.9em;
+    line-height: 1.2;
 }
 
 pre + pre {
@@ -166,11 +222,70 @@ cite {
     margin: 0 0.5em;
 }
 
-.blog-article img {
+img {
     margin: 0.5em;
 }
 
-.blog-article .full-width {
+.full-width {
     margin: 0;
     width: 100%;
 }
+
+.about-me li {
+    font-size: 0.9em;
+}
+
+.navigation-footer {
+    list-style: none;
+    padding: 0;
+    width: 40%;
+    float: left;
+}
+
+.navigation-footer:last-child {
+    float: right;
+    width: 15%;
+}
+
+.navigation-footer li:before {
+    content: '\00b7';
+    margin: 0 0.5em;
+}
+
+@media screen and (max-width:710px) {
+    q {
+        width: 100%;
+        left: 0;
+    }
+
+    pre {
+        width: 95%;
+        left: 0;
+        padding-left: 0.6em;
+    }
+
+    p {
+        overflow: hidden;
+    }
+}
+
+@media screen and (max-width: 635px) {
+    body {
+        margin: 0 0.5em;
+    }
+    main, footer {
+        width: 100%;
+    }
+}
+
+@import "helper/focal-point";
+
+@include focal-point(
+    $grid: 12,
+    $landscape-classes: true,
+    $portrait-classes: true,
+    $breakpoint: 500px,
+    $inner-element: div,
+    $zoom-factor: 1,
+    $zoom-levels: 1
+);
