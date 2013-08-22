@@ -27,6 +27,7 @@
         "ensemble/kernel-doctrine-orm": "@dev",
         "ensemble/admin": "@dev",
         "zf-commons/zfc-user": ">=0.1.0,<0.2.0-dev",
-        "zf-commons/zfc-user-doctrine-orm": ">=0.1.0,<0.2.0-dev"
+        "zf-commons/zfc-user-doctrine-orm": ">=0.1.0,<0.2.0-dev",
+        "slm/google-analytics": ">=0.3.0,<0.4.0-dev"
     }
 }

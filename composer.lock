@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "a97951d9eca54547cff9092c462d1088",
+    "hash": "e55d2c246fbf89d6e5435a487d517391",
     "packages": [
         {
             "name": "bacon/bacon-string-utils",
@@ -787,6 +787,50 @@
                 "zf2"
             ],
             "time": "2013-03-14 18:20:49"
+        },
+        {
+            "name": "slm/google-analytics",
+            "version": "v0.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/juriansluiman/SlmGoogleAnalytics.git",
+                "reference": "v0.3.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/juriansluiman/SlmGoogleAnalytics/zipball/v0.3.1",
+                "reference": "v0.3.1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3.",
+                "zendframework/zendframework": "2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "./"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Jurian Sluiman",
+                    "email": "jurian@juriansluiman.nl",
+                    "homepage": "http://juriansluiman.nl"
+                }
+            ],
+            "description": "Google Analytics tracking integration for Zend Framework 2",
+            "homepage": "https://github.com/juriansluiman/SlmGoogleAnalytics",
+            "keywords": [
+                "ga",
+                "google analytics",
+                "zf2"
+            ],
+            "time": "2013-07-14 10:31:06"
         },
         {
             "name": "soflomo/blog",

@@ -18,6 +18,7 @@ return array(
         'Soflomo\Blog',
         'Soflomo\BlogI18n',
         'Soflomo\Prototype',
+        'SlmGoogleAnalytics',
         'Template',
         'JsBlog',
         'Mockup',
