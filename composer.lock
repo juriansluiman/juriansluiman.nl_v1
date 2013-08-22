@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "21b8dd891b0c2edc402bd152523c9e7e",
+    "hash": "c826a1d56bf592dd55a03e8f37e3f895",
     "packages": [
         {
             "name": "bacon/bacon-string-utils",
@@ -794,12 +794,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Soflomo/Blog.git",
-                "reference": "07d6b9dc14ea442a4d87aa2c17427885559149f9"
+                "reference": "8eb85ceea3f16917e67c994c9da0714aa964ec10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Soflomo/Blog/zipball/07d6b9dc14ea442a4d87aa2c17427885559149f9",
-                "reference": "07d6b9dc14ea442a4d87aa2c17427885559149f9",
+                "url": "https://api.github.com/repos/Soflomo/Blog/zipball/8eb85ceea3f16917e67c994c9da0714aa964ec10",
+                "reference": "8eb85ceea3f16917e67c994c9da0714aa964ec10",
                 "shasum": ""
             },
             "require": {
@@ -840,7 +840,57 @@
                 "source": "https://github.com/Soflomo/Blog/tree/master",
                 "issues": "https://github.com/Soflomo/Blog/issues"
             },
-            "time": "2013-08-16 09:20:09"
+            "time": "2013-08-22 14:43:36"
+        },
+        {
+            "name": "soflomo/blog-i18n",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Soflomo/BlogI18n.git",
+                "reference": "83b872804e1cda93be19560dbc1aeb06ca8aed26"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Soflomo/BlogI18n/zipball/83b872804e1cda93be19560dbc1aeb06ca8aed26",
+                "reference": "83b872804e1cda93be19560dbc1aeb06ca8aed26",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3.",
+                "soflomo/blog": "@dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Soflomo\\BlogI18n": "src/"
+                },
+                "classmap": [
+                    "./Module.php"
+                ]
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Jurian Sluiman",
+                    "email": "jurian@soflomo.com",
+                    "homepage": "http://soflomo.com"
+                }
+            ],
+            "description": "I18n module module for Soflomo\\Blog",
+            "homepage": "https://github.com/Soflomo/BlogI18n",
+            "keywords": [
+                "blog",
+                "i18n",
+                "zf2"
+            ],
+            "support": {
+                "source": "https://github.com/Soflomo/BlogI18n/tree/master",
+                "issues": "https://github.com/Soflomo/BlogI18n/issues"
+            },
+            "time": "2013-08-22 14:47:27"
         },
         {
             "name": "soflomo/common",
@@ -1095,16 +1145,16 @@
         },
         {
             "name": "zendframework/zendframework",
-            "version": "2.2.2",
+            "version": "2.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zf2.git",
-                "reference": "7469e0ca45e55f6179cea109e7d4e210ba9b2b10"
+                "reference": "2d22327ec5a3ab62d00b0845620f60cc6a954101"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zf2/zipball/7469e0ca45e55f6179cea109e7d4e210ba9b2b10",
-                "reference": "7469e0ca45e55f6179cea109e7d4e210ba9b2b10",
+                "url": "https://api.github.com/repos/zendframework/zf2/zipball/2d22327ec5a3ab62d00b0845620f60cc6a954101",
+                "reference": "2d22327ec5a3ab62d00b0845620f60cc6a954101",
                 "shasum": ""
             },
             "require": {
@@ -1205,7 +1255,7 @@
                 "framework",
                 "zf2"
             ],
-            "time": "2013-07-24 14:02:19"
+            "time": "2013-08-21 16:43:43"
         },
         {
             "name": "zf-commons/zfc-admin",
@@ -1271,6 +1321,7 @@
     "stability-flags": {
         "soflomo/image": 20,
         "soflomo/blog": 20,
+        "soflomo/blog-i18n": 20,
         "ensemble/kernel": 20,
         "ensemble/utils": 20,
         "ensemble/kernel-doctrine-orm": 20,

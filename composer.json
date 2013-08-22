@@ -7,6 +7,10 @@
         {
             "type": "vcs",
             "url": "git@github.com:Soflomo/Blog.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:Soflomo/BlogI18n.git"
         }
     ],
     "require": {
@@ -16,6 +20,7 @@
         "soflomo/common": ">=0.4.1,<0.5.0-dev",
         "soflomo/image": "@dev",
         "soflomo/blog": "@dev",
+        "soflomo/blog-i18n": "@dev",
 
         "ensemble/kernel": "@dev",
         "ensemble/utils": "@dev",
