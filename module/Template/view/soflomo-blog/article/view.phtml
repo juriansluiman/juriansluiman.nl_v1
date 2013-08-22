@@ -9,11 +9,13 @@ use IntlDateFormatter as Formatter;
 $formatter = Formatter::create(Locale::getDefault(), Formatter::NONE, Formatter::NONE, null, null, 'LLLL yyyy');
 
 $title = $this->escapeHtml($article->getTitle());
-$descr = strip_tags($article->getLead());
+$descr = trim(strip_tags($article->getLead()));
+$descr = $this->escapeHtmlAttr($descr);
 $date  = $article->getPublishDate();
 
 $this->headTitle()->set($title)->append('Jurian Sluiman');;
-$this->headMeta()->appendName('twitter:card', 'summary')
+$this->headMeta()->appendName('description', $descr)
+                 ->appendName('twitter:card', 'summary')
                  ->appendName('twitter:creator', '@juriansluiman')
                  ->appendName('twitter:title', $title)
                  ->appendName('twitter:description', $descr);

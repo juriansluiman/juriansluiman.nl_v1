@@ -6,6 +6,7 @@
  */
 
 $this->headTitle()->set('Jurian Sluiman');
+$this->headMeta()->appendName('description', 'This is the website of Jurian Sluiman, a Dutch entrepreneur and incidental blogger about programming, the startup culture and other random thoughts.');
 
 use IntlDateFormatter as Formatter;
 $formatter = Formatter::create(Locale::getDefault(), Formatter::NONE, Formatter::NONE, null, null, 'LLLL yyyy');
