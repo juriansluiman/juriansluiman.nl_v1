@@ -1,5 +1,7 @@
-<h1>A 404 error occurred</h1>
-<h2><?php echo $this->message ?></h2>
+<?php
+$this->headTitle('Page not found');
+?>
+<h1><?php echo trim($this->message, '.') ?></h1>
 
 <?php if (isset($this->reason) && $this->reason): ?>
 
@@ -24,7 +26,16 @@ switch ($this->reason) {
 }
 ?>
 
-<p><?php echo $reasonMessage ?></p>
+<p>Sorry, the page you were looking for cannot be found. <?php echo $reasonMessage ?></p>
+
+<p>
+    <a href="http://www.flickr.com/photos/hikingartist/8287082967/"><img src="http://farm9.staticflickr.com/8357/8287082967_58eef6b2cb_b.jpg" class="full-width"></a><br>
+    <em>Image courtesy of Frits Ahlefeldt, <a href="http://hikingartist.com">hikingartist.com</a></em>
+</p>
+
+<p>If you got here by following a link from outside this website then that link may be out of date. Your best bet is to go back to the <a href="/">home page</a> and browse from there.</p>
+
+<p>If the bad link was within the this website then I screwed up and I would appreciate it if you could <a href="/contact">let me know</a>.</p>
 
 <?php endif ?>
 

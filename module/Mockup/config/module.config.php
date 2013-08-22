@@ -2,9 +2,13 @@
 return array(
     'soflomo_prototype' => array(
         'pages' => array(
-            'about-me' => array(
+            'about' => array(
                 'route'    => '/about',
-                'template' => 'mockup/me',
+                'template' => 'mockup/about',
+            ),
+            'contact' => array(
+                'route'    => '/contact',
+                'template' => 'mockup/contact',
             ),
         ),
     ),

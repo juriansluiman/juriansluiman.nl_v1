@@ -5,18 +5,49 @@
  * @var $article Article to be shown
  */
 
-$this->headTitle($this->escapeHtmlAttr($article->getTitle()));
+use IntlDateFormatter as Formatter;
+$formatter = Formatter::create(Locale::getDefault(), Formatter::NONE, Formatter::NONE, null, null, 'LLLL yyyy');
+
+$title = $this->escapeHtml($article->getTitle());
+$descr = strip_tags($article->getLead());
+$date  = $article->getPublishDate();
+
+$this->headTitle()->set($title)->append('Jurian Sluiman');;
+$this->headMeta()->appendName('twitter:card', 'summary')
+                 ->appendName('twitter:creator', '@juriansluiman')
+                 ->appendName('twitter:title', $title)
+                 ->appendName('twitter:description', $descr);
+
+$this->headLink(array('rel' => 'author', 'href' => 'https://plus.google.com/102726331143136952916?rel=author'));
+
 $this->layout()->locale = $article->getLocale();
 ?>
 
 <article class="blog-article" itemprop="blogPosts" itemscope itemtype="http://schema.org/BlogPosting">
     <header>
-        <!-- <time datetime="2011-11-06T13:42:04+01:00" pubdate itemprop="datePublished" content="2011-11-06" class="blog-article-publishdate">november 2011</time> -->
+        <time datetime="<?= $date->format('c')?>" pubdate itemprop="datePublished" content="<?= $date->format('c')?>" class="blog-article-publishdate"><?= $formatter->format($date)?></time>
         <h1 itemprop="name" class="blog-article-title">
-            <a href="" itemprop="url"><?= $this->escapeHtml($article->getTitle())?></a>
+            <a href="<?= $this->url(null, array(), array(), true)?>" itemprop="url"><?= $title?></a>
         </h1>
     </header>
 
     <?= $article->getLead()?>
     <?= $article->getBody()?>
+
+    <?/*<footer>
+        <p><strong>Last update: december 2012</strong><br>
+        This post is published by <a href="/about" rel="author">Jurian Sluiman</a> in november 2011. Want to read more? There is much more in the category <a href="">Programming</a>.</p>
+    </footer>*/?>
 </article>
+
+<?/*
+<h2>Comments</h2>
+
+<article>
+    <p>I got to agree with your overall opinion. Strategies are awesome. As soon as forms get more complex you'll run into them pretty often and they make your life so much easier. That way you'll also learn how hydration works. Good post!</p>
+</article>
+
+<article>
+    <p>This solves the exact problem i've been having. But one small question - where in the directory structure would you save this custom strategy?</p>
+</article>
+*/?>

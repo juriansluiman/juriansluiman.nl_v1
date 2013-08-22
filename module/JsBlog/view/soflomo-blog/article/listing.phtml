@@ -1,0 +1,57 @@
+<?php
+/**
+ * Rendering of a listing of blog articles
+ *
+ * @var $articles Array or recent articles
+ */
+use Soflomo\Image\Model\Entity\Image;
+
+$i     = 1;
+$count = count($articles);
+?>
+
+<ul class="large-block-grid-3 medium-block-grid-2">
+<? foreach ($articles as $article):?>
+
+    <?/*?>
+    <? if(($i-1)%3 === 0):?>
+        <!-- <div class="row"> -->
+    <? endif?>
+    <?*/?>
+
+    <li>
+    <article class="blog-listing-article" itemscope itemtype="http://schema.org/Article">
+        <? $urlBlogArticle = $this->url('/view', array('article' => $article->getId(), 'slug'    => $this->slug($article->getTitle())))?>
+
+        <h1 class="blog-listing-title"><a href="<?= $urlBlogArticle?>"><span itemprop="name"><?= $this->escapeHtml($article->getTitle())?></span></a></h1>
+        <div class="blog-listing-date">
+            <time itemprop="dateCreated" datetime="<?= $article->getPublishDate()->format('c') ?>">
+                <?= $this->dateFormat($article->getPublishDate() , IntlDateFormatter::MEDIUM);?>
+            </time>
+        </div>
+
+        <? if(($image = $article->getImage()) instanceof Image):?>
+            <p><a href="<?= $urlBlogArticle?>"><img src="<?= $this->image($image, 'blog') ?>" download="<?= $image->getTitle() ?>" title="<?= $image->getTitle() ?>" alt="<?= $image->getAlt() ?>"></a></p>
+        <? endif?>
+
+        <div class="blog-listing-lead">
+            <?= $article->getLead()?>
+        </div>
+
+        <div class="blog-listing-more">
+            <p>
+                <a itemprop="url" href="<?= $urlBlogArticle?>#more" title="<?= $this->escapeHtml($article->getTitle())?>" class="blog-listing-more-link circle button-next">Lees verder</a>
+            </p>
+        </div>
+    </article>
+    </li>
+
+    <?/*?>
+    <? if( $i%3 === 0 || $i === $count):?>
+        </div>
+    <? endif ?>
+    <?*/?>
+
+    <? $i++?>
+<? endforeach ?>
+</ul>

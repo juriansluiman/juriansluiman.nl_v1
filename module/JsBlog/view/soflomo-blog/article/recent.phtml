@@ -1,0 +1,23 @@
+<?php
+/**
+ * Listing of recent articles
+ *
+ * @var $articles Array or recent articles
+ */
+$this->layout()->full = true;
+$this->headLink()->appendAlternate($this->url('/feed'), 'application/rss+xml', 'Stip RSS Feed');
+?>
+
+<div class="main-content">
+    <div class="row blog-listing">
+        <div class="large-12 columns">
+            <?= $this->render('soflomo-blog/article/listing')?>
+        </div>
+    </div>
+
+    <div class="row cf">
+        <div class="large-12 columns pagination">
+            <a class="blog-pagination" href="<?= $this->url('/archive', array('page' => 2))?>">Meer berichten &rarr;</a>
+        </div>
+    </div>
+</div>

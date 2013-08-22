@@ -1,5 +1,20 @@
+<?php
+    $this->headTitle('An error occurred');
+?>
 <h1>An error occurred</h1>
-<h2><?php echo $this->message ?></h2>
+<p>
+    <?php echo $this->message ?>
+    <?php if(isset($this->exception)):?>
+    <code><?= get_class($this->exception)?></code>: <?= $this->exception->getMessage()?>
+    <?php endif?>
+</p>
+
+<p>
+    <a href="http://www.flickr.com/photos/hikingartist/5727425824/"><img src="http://farm4.staticflickr.com/3259/5727425824_0d42007863_b.jpg" class="full-width"></a><br>
+    <em>Image courtesy of Frits Ahlefeldt, <a href="http://hikingartist.com">hikingartist.com</a></em>
+</p>
+
+<p>Please <a href="/contact">let me know</a> what happened, so I can fix this problem.</p>
 
 <?php if (isset($this->display_exceptions) && $this->display_exceptions): ?>
 

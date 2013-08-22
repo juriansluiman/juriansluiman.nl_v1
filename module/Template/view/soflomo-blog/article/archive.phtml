@@ -4,22 +4,44 @@
  *
  * @var $paginator Zend\Paginator\Paginator
  */
+
+$this->headTitle()->set('Archive')->append('Jurian Sluiman');
+
+use IntlDateFormatter as Formatter;
+$formatter   = Formatter::create(Locale::getDefault(), Formatter::NONE, Formatter::NONE, null, null, 'LLLL yyyy');
+$currentDate = null;
 ?>
-<h1>Blog</h1>
+<h1><a href="/">Jurian Sluiman &middot; archived posts</a></h1>
 
-<?php if (count($this->paginator)): ?>
-<ul>
-<?php foreach ($this->paginator as $article): ?>
-    <li><a href="<?php echo $this->url('/view', array(
-        'article' => $article->getId(),
-        'slug'    => $this->slug($article->getTitle()),
-    ))?>">
-        <?php echo $this->escapeHtml($article->getTitle())?>
-    </a></li>
-<?php endforeach; ?>
-</ul>
-<?php endif; ?>
+<section itemscope itemtype="http://schema.org/Blog">
+    <?php if (count($this->paginator)): ?>
 
-<?php echo $this->paginationControl($this->paginator,
+    <?php foreach ($this->paginator as $article): ?>
+        <?php $date = $article->getPublishDate(); $formatted = $formatter->format($date)?>
+        <?php if ($currentDate !== $formatted): ?>
+            <?php if ($currentDate !== null):?></ul><?endif?>
+        <h2 class="blog-archive-publishdate">
+            <time datetime="<?= $date->format('c')?>"><?= $formatted?></time>
+        </h2>
+        <ul class="blog-archive-listing">
+        <?php $currentDate = $formatted?>
+        <?php endif?>
+
+        <?php $url = $this->url('/view', array(
+            'article' => $article->getId(),
+            'slug'    => $this->slug($article->getTitle()),
+        ))?>
+            <li>
+                <span itemprop="name" class="blog-archive-title">
+                    <a href="<?= $url?>" itemprop="url"><?= $this->escapeHtml($article->getTitle())?></a>
+                </span>
+            </li>
+    <?php endforeach; ?>
+    </ul>
+
+    <?php endif; ?>
+
+    <?php echo $this->paginationControl($this->paginator,
                                     'Sliding',
                                     'soflomo-blog/pagination/control', array('route' => '/archive')); ?>
+</section>

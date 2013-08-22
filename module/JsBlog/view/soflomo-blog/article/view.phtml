@@ -1,0 +1,105 @@
+<?php
+/**
+ * Detail of blog post
+ *
+ * @var $article Article to be shown
+ */
+use Soflomo\Image\Model\Entity\Image;
+
+$this->layout()->full = true;
+
+$this->headTitle($this->escapeHtmlAttr($article->getTitle()), 'SET')->append('Stip');
+
+$this->headLink()->appendAlternate($this->url('/feed'), 'application/rss+xml', 'Stip RSS Feed');
+
+if(($image = $article->getImage()) instanceof Image) {
+    $imageAvailable = true;
+    $imageLarge     = $this->image($image, 'blog-large');
+    $imageSmall     = $this->image($image, 'blog');
+} else {
+    $imageAvailable = false;
+}
+
+$sharingUrl  = $this->url('/view', array('article' => $article->getId(), 'slug' => $this->slug($article->getTitle())), array('force_canonical' => true), true);
+
+$this->headMeta()->appendProperty('og:title', $article->getTitle())
+                 ->appendProperty('og:type', 'article')
+                 ->appendProperty('og:url', $sharingUrl)
+                 ->appendProperty('article:published_time', $article->getPublishDate()->format('c'))
+                 ->appendProperty('og:locale', Locale::getDefault());
+
+if ($imageAvailable) {
+$this->headMeta()->appendProperty('og:image', $imageSmall)
+                 ->appendProperty('og:image:type', $image->getType());
+}
+?>
+
+<div class="main-content row">
+    <div class="large-3 medium-12 columns sidebar hide-for-small">
+        <a href="<?= $this->url('/') ?>" class="blog-back-link">&larr; nieuwsoverzicht</a>
+    </div>
+
+    <article class="blog-article large-9 medium-12 columns" itemscope itemtype="http://schema.org/Article">
+        <div class="row">
+            <div class="large-9 medium-9 columns">
+                <h1 class="blog-title" itemprop="name"><?= $this->escapeHtml($article->getTitle())?></h1>
+                <div itemprop="articleBody" class="content">
+                    <div class="blog-lead">
+                        <?= $article->getLead()?>
+                    </div>
+
+                    <? if($imageAvailable):?>
+                        <p>
+                            <img src="<?= $imageLarge ?>" download="<?= $image->getTitle() ?>" title="<?= $image->getTitle() ?>" alt="<?= $image->getAlt() ?>" itemprop="image">
+                        </p>
+                    <? endif?>
+
+                    <div class="blog-body">
+                        <span id="more" class="blog-more-anchor"></span>
+                        <?= $article->getBody()?>
+                    </div>
+                </div>
+
+                <footer class="blog-footer">
+                    <?
+                    $facebook = 'http://facebook.com/sharer.php?' . http_build_query(array(
+                        's' => '100',
+                        'p' => array(
+                            'url'     => $sharingUrl,
+                            'title'   => $article->getTitle(),
+                            'summary' => strip_tags($article->getLead()),
+                            'images'  => array($imageAvailable ? $this->serverUrl() . $this->basePath() . $imageSmall : null),
+                        )
+                    ));
+                    $twitter = 'http://twitter.com?' . http_build_query(array(
+                        'status' => $article->getTitle() . ' ' . $sharingUrl
+                    ));
+
+                    ?>
+
+                    <time class="blog-time inline" itemprop="dateCreated" datetime="<?= $article->getPublishDate()->format('c') ?>">
+                        <?= $this->dateFormat($article->getPublishDate() , IntlDateFormatter::MEDIUM);?>
+                    </time>
+                    <div class="right inline">Deel dit artikel op <a href="<?= $facebook?>">Facebook</a> of <a href="<?= $twitter?>">Twitter</a></div>
+                    <a itemprop="url" href="<?= $sharingUrl?>" class="hidden">Permalink</a>
+                </footer>
+            </div>
+
+            <div class="large-3 medium-3 columns align-center person person-sidebar person-blog">
+                <a href="/mensen/anne-viruly"><img class="person-image" itemprop="image" src="/assets/images/profile/anne-viruly.jpg"></a>
+                <a href="/mensen/anne-viruly"><div class="person-name" itemprop="name">Anne Viruly</div></a>
+                <div class="person-desctiption small-text">
+                    <p>
+                    <a href="tel:06-10228430">06-10228430</a><br>
+                    <a href="mailto:a.j.f.viruly@stipdelft.nl">a.j.f.viruly@stipdelft.nl</a><br>
+                    <a href="https://twitter.com/AnneViruly" target="_blank">@AnneViruly</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="show-for-small cf">
+                <a href="<?= $this->url('/') ?>" class="blog-back-link-mobile">&larr; nieuwsoverzicht</a>
+            </div>
+        </div>
+    </article>
+</div>

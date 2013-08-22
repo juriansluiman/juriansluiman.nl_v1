@@ -4,16 +4,32 @@
  *
  * @var $articles Array or recent articles
  */
+
+$this->headTitle()->set('Jurian Sluiman');
+
+use IntlDateFormatter as Formatter;
+$formatter = Formatter::create(Locale::getDefault(), Formatter::NONE, Formatter::NONE, null, null, 'LLLL yyyy');
 ?>
 
+<h1><a href="/">Jurian Sluiman &middot; blog posts</a></h1>
+
+<section itemscope itemtype="http://schema.org/Blog">
 <?php foreach ($articles as $article):?>
-    <article class="blog-article">
-        <h2><a href="<?php echo $this->url('/view', array(
-            'article' => $article->getId(),
-            'slug'    => $this->slug($article->getTitle()),
-        ))?>">
-            <?php echo $this->escapeHtml($article->getTitle())?>
+    <?php
+    $url = $this->url('/view', array(
+        'article' => $article->getId(),
+        'slug'    => $this->slug($article->getTitle()),
+    ));
+    $date = $article->getPublishDate();
+    ?>
+    <article class="blog-article" itemscope itemtype="http://schema.org/BlogPosting">
+        <time datetime="<?= $date->format('c')?>" pubdate itemprop="datePublished" content="<?= $date->format('c')?>" class="blog-article-publishdate blog-listing-publishdate"><?= $formatter->format($date)?></time>
+        <h2 itemprop="name" class="blog-listing-title"><a href="<?= $url?>" itemprop="url">
+            <?= $this->escapeHtml($article->getTitle())?>
         </a></h2>
-        <p><?php echo $article->getLead()?></p>
+        <div itemprop="description" class="blog-listing-description"><?= $article->getLead()?></div>
     </article>
 <?php endforeach ?>
+
+<p><em>More posts are available in the <a href="<?= $this->url('/archive')?>">archive</a>.</em></p>
+</section>

@@ -1,11 +1,10 @@
 <?php
-    $this->headTitle()->set('About me')
+    $this->headTitle()->set('About me')->append('Jurian Sluiman');
+    $this->layout()->pagetype = 'AboutPage';
 ?>
 
 <section class="blog-article about-me" itemscope itemtype="http://schema.org/Person">
-    <header>
-        <h1 class="blog-article-title" itemprop="name">Jurian Sluiman</h1>
-    </header>
+    <h1 class="blog-article-title" itemprop="name">Jurian Sluiman &middot; about me</h1>
 
     <div class="focal-point left-3 up-5"><div><img src="/assets/images/jurian.jpg" class="full-width"></div></div>
 

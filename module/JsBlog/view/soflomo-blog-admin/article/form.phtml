@@ -15,16 +15,12 @@ $this->headLink()->appendStylesheet($this->basePath() . '/components/redactor/re
 $this->headScript()->appendFile($this->basePath() . '/components/requirejs/require.js');
 
 $this->inlineScript()->appendFile($this->basePath() .'/components/redactor/redactor.min.js')
-                     ->appendFile($this->basePath() . '/scripts/redactor-fullscreen.js')
                      ->appendFile($this->basePath() .'/components/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')
                      ->appendScript("
                         $(document).ready(
                             function()
                             {
                                 $('.redactor').redactor({
-                                    formattingTags: ['p', 'blockquote', 'pre', 'h2', 'h3'],
-                                    plugins: ['fullscreen'],
-                                    formattingPre: true,
                                     imageUpload: '/admin/image/upload',
                                     imageUploadErrorCallback: function(obj, json) {
                                         alert('Something went wrong with your image upload');
@@ -38,15 +34,7 @@ $this->inlineScript()->appendFile($this->basePath() .'/components/redactor/redac
                                     },
                                     tabFocus: false,
                                     toolbarFixedBox: true,
-                                    buttons: ['formatting', '|', 'bold', 'italic', 'code', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|','image', 'video', 'file', 'link', '|', 'html'],
-                                    buttonsCustom: {
-                                        code: {
-                                            title: 'Code',
-                                            callback: function(buttonName, buttonDOM, buttonObject) {
-                                                this.inlineFormat('code');
-                                            }
-                                        }
-                                    }
+                                    buttons: ['formatting', '|', 'bold', 'italic', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|','image', 'video', 'file', 'link', '|', 'html']
                                 });
                             }
                         );
@@ -64,13 +52,67 @@ $this->inlineScript()->appendFile($this->basePath() .'/components/redactor/redac
                     ");
 ?>
 
+<?
+$image      = (isset($article) &&  $article->getImage() ? $article->getImage(): false);
+$urlCreate  = $this->url('image');
+$urlUpdate  = $this->url('image', array('image' => '%s'));
+$urlDelete  = $this->url('image', array('image' => '%s'));
+
+$formUpload = $this->imageUploadForm('blog-image', $urlCreate);
+$formName   = $formUpload->getFileInputName();
+?>
+
+
 <?  $form->prepare()?>
 <?= $this->form()->openTag($form)?>
     <button type="submit" class="btn blog-save-button top pull-right"><?= $this->translate("Save article")?></button>
     <?= $this->formRow($form->get('title')->setAttribute('class', 'span8')->setLabel( $this->translate("Title") ))?>
     <?= $this->formRow($form->get('lead')->setAttribute('class', 'redactor')->setLabel( $this->translate("Lead") ))?>
 
+    <label><?= $this->translate("Image")?></label>
+    <div class="image-uploader dropzone" data-url="<?= $urlCreate ?>" data-create="<?= $urlCreate ?>" data-update="<?= $urlUpdate ?>" data-delete="<?= $urlDelete ?>" data-image-field="blog-image" data-image-variant="blog-image">
+
+    <?/*= $this->form()->openTag($formUpload->setAttributes(array(
+            'class'               => 'image-uploader dropzone',
+            'data-url'            => $urlCreate,
+            'data-create'         => $urlCreate,
+            'data-update'         => $urlUpdate,
+            'data-delete'         => $urlDelete,
+            'data-image-field'    => 'blog-image',
+            'data-image-variant'  => 'blog-image',
+            'data-image-template' => '<img src=\"%s\" data-image-id=\"%s\">',
+        )))*/?>
+
+
+        <div class="image-container">
+
+            <div class="dz-message clickable" data-dz-message <? if($image) echo 'style="display: none;"'?>>
+                <div class="dz-message-text">
+                    <p><i class="icon-picture"></i></p>
+                    <p><?= $this->translate("Drag image to upload (or click)")?></p>
+                </div>
+            </div>
+
+            <? if ($image): ?>
+                <img class="image-element clickable" src="<?= $image->getSource() ?>" data-image-id="<?= $image->getId() ?>">
+                <div class="image-delete-container" data-dz-message>
+                    <a href="<?//= $urlDelete?>" class="delete-image" data-confirm-message="Are you sure you want to remove this image?"><?= $this->translate("Remove image")?></a>
+                </div>
+            <? else: ?>
+                <img class="image-element clickable" src="">
+            <? endif ?>
+        </div>
+
+        <a class="image-upload-link clickable btn" style="display: none;"><?= $this->translate("Upload image")?></a>
+
+        <?//= $this->formRow($formUpload->get($formName))?>
+        <?//= $this->formElement($formUpload->get('form'))?>
+    <?//= $this->form()->closeTag()?>
+
+    </div>
+
     <?= $this->formRow($form->get('body')->setAttribute('class', 'redactor')->setLabel( $this->translate("Body") ))?>
+    <?= $this->formRow($form->get('image')->setAttribute('id', 'blog-image'))?>
     <div class="input-append date blog-date">
         <?= $this->formLabel($form->get('publish_date')->setLabel( $this->translate("Publish date") ))?>
         <?= $this->formElement($form->get('publish_date')->setAttribute('data-format', 'yyyy-MM-dd hh:mm'))?>

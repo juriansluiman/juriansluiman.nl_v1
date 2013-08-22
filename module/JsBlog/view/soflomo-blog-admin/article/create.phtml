@@ -1,0 +1,22 @@
+<?php
+/**
+ * Create page of blog article in admin
+ *
+ * @var $blog    Current blog
+ * @var $form    Form to edit article
+ */
+
+use IntlDateFormatter as Format;
+$this->plugin('translate')->setTranslatorTextDomain('blog');
+?>
+
+<div class="page-header">
+    <h1><?= $this->translate("New article")?></h1>
+    <a href="<?php echo $this->url('zfcadmin/blog', array('blog' => $blog->getSlug()))?>">&larr; <?= $this->translate("Article overview")?></a>
+</div>
+
+<div class="row-fluid">
+    <div class="editor blog-container">
+        <?= $this->render('soflomo-blog-admin/article/form')?>
+    </div>
+</div>

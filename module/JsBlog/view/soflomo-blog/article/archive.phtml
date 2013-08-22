@@ -1,0 +1,33 @@
+<?php
+/**
+ * Listing of articles in archive
+ *
+ * @var $paginator Zend\Paginator\Paginator
+ */
+$this->layout()->full = true;
+
+$this->headLink()->appendAlternate($this->url('/feed'), 'application/rss+xml', 'Stip RSS Feed');
+$this->headTitle('Stip', 'SET')->append('Blog Archive');
+
+if ($paginator) {
+    $this->headTitle()->append('Page ' . $paginator->getCurrentPageNumber());
+};
+?>
+
+<div class="main-content">
+
+    <div class="row blog-listing">
+        <div class="large-12 columns">
+            <?= $this->render('soflomo-blog/article/listing', array('articles' => $paginator->getCurrentItems() ) )?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="large-6 columns">
+            <div class="blog-pagination">
+            <?= $this->paginationControl($this->paginator, 'Sliding',
+                                         'soflomo-blog/pagination/control', array('route' => '/archive')); ?>
+            </div>
+        </div>
+    </div>
+</div>
