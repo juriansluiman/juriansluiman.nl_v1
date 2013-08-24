@@ -22,6 +22,8 @@ $this->headMeta()->appendName('description', $descr)
 
 $this->headLink(array('rel' => 'author', 'href' => 'https://plus.google.com/102726331143136952916?rel=author'));
 
+$this->inlineScript()->appendFile($this->basePath() . '/scripts/prism.js?' . $this->version());
+
 $this->layout()->locale = $article->getLocale();
 ?>
 
