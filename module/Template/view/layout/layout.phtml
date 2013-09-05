@@ -21,12 +21,11 @@ if (!isset($pagetype)) {
                          ->appendName('viewport', 'width=device-width, initial-scale=1')
                          ?>
 
-    <?= $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro')
-                         ->prependStylesheet('//fast.fonts.net/cssapi/36620992-14f0-4ddb-91fb-f0f85808413d.css')
+    <?= $this->headLink()->prependStylesheet('//fast.fonts.net/cssapi/36620992-14f0-4ddb-91fb-f0f85808413d.css')
                          ->appendStylesheet($this->basePath() . '/styles/css/styles.css?' . $this->version())
                          ?>
 
-    <?//= $this->headScript()->appendFile('//fast.fonts.net/jsapi/36620992-14f0-4ddb-91fb-f0f85808413d.js') ?>
+    <?= $this->headScript() ?>
 </head>
 
 <body itemscope itemtype="http://schema.org/<?= $pagetype?>">
@@ -56,6 +55,19 @@ if (!isset($pagetype)) {
         </nav>
     </footer>
 
-    <?= $this->inlineScript() ?>
+    <?= $this->inlineScript()->appendScript("WebFontConfig = {
+  google: { families: [ 'Source Code Pro' ] }
+};
+
+(function() {
+  var wf = document.createElement('script');
+  wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+           '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+  wf.type = 'text/javascript';
+  wf.async = 'true';
+
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(wf, s);
+})();") ?>
 </body>
 </html>
