@@ -3,6 +3,7 @@
 namespace Application;
 
 use Locale;
+use Zend\Cache\StorageFactory;
 
 class Module
 {
@@ -51,5 +52,24 @@ class Module
                 return $plugin->toUrl($url . '?redirect=' . $redirect);
             }
         }, 1000);
+    }
+
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'Application\Cache' => function($sl) {
+                    return StorageFactory::factory(array(
+                        'adapter' => array(
+                            'name'    => 'apc',
+                            'options' => array('ttl' => 60*60*24*7),
+                        ),
+                        'plugins' => array(
+                            'exception_handler' => array('throw_exceptions' => false),
+                        ),
+                    ));
+                }
+            ),
+        );
     }
 }
