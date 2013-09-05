@@ -25,8 +25,21 @@ return array(
     ),
 
     'view_manager' => array(
+        'doctype'                  => 'HTML5',
+
+        'display_not_found_reason' => true,
+        'display_exceptions'       => false,
+
+        'not_found_template'       => 'error/page-not-found',
+        'exception_template'       => 'error/server-error',
+
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+
+        'template_map' => array(
+            'error/page-not-found'     => __DIR__ . '/../view/error/page-not-found.phtml',
+            'error/server-error'       => __DIR__ . '/../view/error/server-error.phtml',
         ),
     ),
 
