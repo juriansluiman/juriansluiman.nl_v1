@@ -1,0 +1,13 @@
+<?php
+
+return array(
+    'module_listener_options' => array(
+        'config_cache_enabled'     => true,
+        'config_cache_key'         => '47bfde80-15fe-11e3-8ffd-0800200c9a66',
+
+        'module_map_cache_enabled' => true,
+        'module_map_cache_key'     => '504459a0-15fe-11e3-8ffd-0800200c9a66',
+
+        'cache_dir'                => 'data/cache/modulecache',
+    ),
+);

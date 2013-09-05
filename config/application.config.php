@@ -1,5 +1,7 @@
 <?php
-return array(
+use Zend\Stdlib\ArrayUtils;
+
+$config = array(
     'modules' => array(
         'Application',
         'DoctrineModule',
@@ -19,9 +21,12 @@ return array(
         'Soflomo\BlogI18n',
         'Soflomo\Prototype',
         'SlmGoogleAnalytics',
+        'SlmException',
         'Template',
         'JsBlog',
         'Mockup',
+        'SlmMail',
+        'Test',
     ),
     'module_listener_options' => array(
         'config_glob_paths'    => array(
@@ -33,3 +38,10 @@ return array(
         ),
     ),
 );
+
+$local = __DIR__ . '/application.config.local.php';
+if (is_readable($local)) {
+    $config = ArrayUtils::merge($config, require($local));
+}
+
+return $config;
